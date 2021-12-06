@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 8869070876657148720}
   - component: {fileID: 6375994254989710821}
   - component: {fileID: 6375994254989710820}
+  - component: {fileID: 1420043150}
   - component: {fileID: 9207750318020130043}
   m_Layer: 0
   m_Name: Player
@@ -126,7 +127,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7473116658808879953}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -165,6 +166,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1420043150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7473116658808879953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb1518ad0ebc8e741a5c1d29e6575ae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireStateEnabled: 1
+  iceStateEnabled: 1
+  electrikStateEnabled: 1
+  windStateEnabled: 1
 --- !u!114 &9207750318020130043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,13 +194,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4341550572b2ff14dad83265c2f26db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireModeEnabled: 1
-  iceModeEnabled: 1
-  electrikModeEnabled: 1
-  windModeEnabled: 1
   fireBall: {fileID: 3991886313561803412}
+  firePower: 100
+  fireBallCost: 20
+  fireReloadSpeed: 0.1
   iceDome: {fileID: 1685481888421729793, guid: c96ebe1e777c28b49a3e2c6da41b18f0, type: 3}
+  icePower: 100
+  iceDomeCost: 25
+  iceReloadSpeed: 0.2
   electrikShock: {fileID: 3809322727912897726}
+  electrikPower: 100
+  diminishingElectrikSpeed: 0.1
+  electrikReloadSpeed: 0.2
+  windPower: 100
 --- !u!1001 &3088256922803380201
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -191,6 +214,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8869070876657148720}
     m_Modifications:
+    - target: {fileID: 2163662522354754391, guid: ae9677110e1b7de40b06a8b7ea1c9f32, type: 3}
+      propertyPath: EmissionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5397006993416663914, guid: ae9677110e1b7de40b06a8b7ea1c9f32, type: 3}
       propertyPath: m_RootOrder
       value: 2
