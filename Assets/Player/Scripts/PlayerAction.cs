@@ -10,31 +10,30 @@ public class PlayerAction : MonoBehaviour
     [SerializeField] ParticleSystem fireBall;
     [SerializeField] [Range(0,100)] int firePower = 100;
     [SerializeField] int fireBallCost = 20;
-    [SerializeField] [Range(0,5)]float fireReloadSpeed = 0.2f;
 
     [Header("Ice state settings")]
     [SerializeField] ParticleSystem iceDome;
     [SerializeField] [Range(0,100)] int icePower = 100;
     [SerializeField] int iceDomeCost = 25;
-    [SerializeField] [Range(0,5)]float iceReloadSpeed = 0.2f;
 
     [Header("Elctrik state settings")]
     [SerializeField] ParticleSystem electrikShock;
     [SerializeField] [Range(0,100)] int electrikPower = 100;
     [SerializeField] [Range(0,0.1f)] float diminishingElectrikSpeed = 0.02f;
-    [SerializeField] [Range(0,5)] float electrikReloadSpeed = 0.2f;
 
     [Header("Wind state settings")]
     [SerializeField] [Range(0,100)] int windPower = 100;
+    
+    public int FirePower { get { return firePower; } set { firePower = value; } }
+    public int IcePower { get { return icePower; } set { icePower = value; } }
+    public int ElectrikPower { get { return electrikPower; } set { electrikPower = value; } }
+    public int WindPower { get { return windPower; } set { windPower = value; } }
 
     ChangePlayerState changePlayerState;
     UIUpdater uiUpdater;
 
-    bool reloadingFire = false;
-    bool reloadingIce = false;
-    bool reloadingElectrik = false;
-
     bool usingElectrikShock = false;
+    public bool UsingElectrikShock { get { return usingElectrikShock; } }
     bool usingElectrikShockForValue = false;
 
     void Start() {
@@ -46,7 +45,6 @@ public class PlayerAction : MonoBehaviour
     {
         Action();
         Dash();
-        ReloadElementPower();
     }
 
     void Action()
@@ -165,7 +163,7 @@ public class PlayerAction : MonoBehaviour
 
     void ActionWindState()
     {
-        if(Input.GetButton("Fire1"))
+        if(Input.GetButtonDown("Fire1"))
         {
             Jump();
         }
@@ -182,71 +180,6 @@ public class PlayerAction : MonoBehaviour
         {
             Debug.Log("Click Droit");
         }
-    }
-
-    void ReloadElementPower()
-    {
-        if(firePower < 100)
-        {
-            if(!reloadingFire)
-            {
-                StartCoroutine(ReloadFirePower());
-                reloadingFire = true;
-            }
-        }
-        if(icePower < 100)
-        {
-            if(!reloadingIce)
-            {
-                StartCoroutine(ReloadIcePower());
-                reloadingIce = true;
-            }
-        }
-        if(electrikPower < 100)
-        {
-            if(!usingElectrikShock && !reloadingElectrik)
-            {
-                StartCoroutine(ReloadElectrikPower());
-                reloadingElectrik = true;
-            }
-        }
-        if(windPower < 100)
-        {
-            
-        }
-    }
-
-    IEnumerator ReloadFirePower()
-    {
-        while(firePower != 100)
-        {
-            yield return new WaitForSeconds(fireReloadSpeed);
-            firePower += 1;
-            uiUpdater.UpdateFirePowerUI(firePower);
-        }
-        reloadingFire = false;
-    }
-
-    IEnumerator ReloadIcePower()
-    {
-        while(icePower != 100)
-        {
-            yield return new WaitForSeconds(iceReloadSpeed);
-            icePower += 1;
-            uiUpdater.UpdateIcePowerUI(icePower);
-        }
-        reloadingIce = false;
-    }
-
-    IEnumerator ReloadElectrikPower()
-    {
-        while(electrikPower != 100)
-        {
-            yield return new WaitForSeconds(electrikReloadSpeed);
-            electrikPower += 1;
-            uiUpdater.UpdateElectrikPowerUI(electrikPower);
-        }
-        reloadingElectrik = false;
     }
 
 }

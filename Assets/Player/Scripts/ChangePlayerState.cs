@@ -29,19 +29,19 @@ public class ChangePlayerState : MonoBehaviour
 
     void ChangeState()
     {
-        if(!GetComponentInChildren<TransformPlayerMesh>().IsCurrentlyRotating)
+        if(!GetComponentInChildren<ChangePlayerMesh>().IsCurrentlyRotating)
         {
             if (Input.mouseScrollDelta.y > 0)
-        {
-            StartCoroutine(GetComponentInChildren<TransformPlayerMesh>().ChangingStateRotation(90));
-            IncrementingState();
-        }
-        else if (Input.mouseScrollDelta.y < 0)
-        {
-            StartCoroutine(GetComponentInChildren<TransformPlayerMesh>().ChangingStateRotation(-90));
-            DecrementingState();
-        }
-        if(Input.mouseScrollDelta.y != 0) ChangeMaterial();
+            {
+                StartCoroutine(GetComponentInChildren<ChangePlayerMesh>().RotatePlayerMesh(90));
+                IncrementingState();
+            }
+            else if (Input.mouseScrollDelta.y < 0)
+            {
+                StartCoroutine(GetComponentInChildren<ChangePlayerMesh>().RotatePlayerMesh(-90));
+                DecrementingState();
+            }
+            if(Input.mouseScrollDelta.y != 0) ChangeMaterial();
         }
     }
 
@@ -91,6 +91,6 @@ public class ChangePlayerState : MonoBehaviour
                 }
                 break;
         }
-        GetComponentInChildren<TransformPlayerMesh>().SetCurrentMaterial(currentState, isEnabled);
+        GetComponentInChildren<ChangePlayerMesh>().SetCurrentMaterial(currentState, isEnabled);
     }
 }

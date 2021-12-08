@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
         RotateLeftRight();
     }
 
-    private void MoveForwardBackward()
+    void MoveForwardBackward()
     {
         if (Input.GetKey(KeyCode.Z))
         {
@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void MoveLeftRight()
+    void MoveLeftRight()
     {
         if (Input.GetKey(KeyCode.A))
         {
@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void RotateLeftRight()
+    void RotateLeftRight()
     {
         Vector3 rotationVector = Vector3.zero;
         if (Input.GetKey(KeyCode.Q))
@@ -51,4 +51,5 @@ public class PlayerMovement : MonoBehaviour
         }
         transform.Rotate(rotationVector);
     }
+
 }

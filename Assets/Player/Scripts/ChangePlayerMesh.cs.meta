@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: e73b4eab4bcf7dd4f824342a14e2c140
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - defaultMaterial: {fileID: 2100000, guid: 0dc440c23259e0049abe6114e4e0580c, type: 2}
+  - fireMaterial: {fileID: 2100000, guid: 6eb739975ffbdf741848d4c986c569f9, type: 2}
+  - iceMaterial: {fileID: 2100000, guid: a7c0f0c4f5778a24cbd7d529dbe83001, type: 2}
+  - electrikMaterial: {fileID: 2100000, guid: a7a38e1fe0cb5324ca7870947a97d749, type: 2}
+  - windMaterial: {fileID: 2100000, guid: 0400868e6399cff4a8d726a7d079b990, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
