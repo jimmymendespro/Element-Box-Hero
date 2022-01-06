@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4770742484186681377}
   - component: {fileID: 4770742484186681376}
   - component: {fileID: 7172681480096741346}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Water
   m_TagString: Water
   m_Icon: {fileID: 0}
@@ -114,3 +114,4 @@ MonoBehaviour:
   waterMaterial: {fileID: 2100000, guid: 1dd4b42ef29b8e740b4d4b5713a51309, type: 2}
   iceMaterial: {fileID: 2100000, guid: 1540d8553be700344a10aeb4083bda3f, type: 2}
   sandMaterial: {fileID: 0}
+  stoneMaterial: {fileID: 0}

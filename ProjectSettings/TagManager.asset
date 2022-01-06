@@ -18,11 +18,12 @@ TagManager:
   - IceDome
   - IceDomeParticleContainer
   - Stone
+  - PlayerRig
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Tiles
   - Water
   - UI
   - 

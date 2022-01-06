@@ -68,6 +68,7 @@ public class ChangePlayerState : MonoBehaviour
                     isEnabled = true;
                     tag = "PlayerFireMode"; 
                 }
+                else tag = "Player"; 
                 break;
             case 1:
                 if(iceStateEnabled)
@@ -75,13 +76,15 @@ public class ChangePlayerState : MonoBehaviour
                     isEnabled = true;
                     tag = "PlayerIceMode";
                 } 
+                else tag = "Player"; 
                 break;
             case 2:
                 if(electrikStateEnabled)
                 {
                     isEnabled = true;
                     tag = "PlayerElectrikMode";
-                } 
+                }
+                else tag = "Player"; 
                 break;
             case 3:
                 if(windStateEnabled)
@@ -89,6 +92,7 @@ public class ChangePlayerState : MonoBehaviour
                     isEnabled = true;
                     tag = "PlayerWindMode";
                 }
+                else tag = "Player"; 
                 break;
         }
         GetComponentInChildren<ChangePlayerMesh>().SetCurrentMaterial(currentState, isEnabled);

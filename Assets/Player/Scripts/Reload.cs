@@ -64,7 +64,7 @@ public class Reload : MonoBehaviour
         {
             yield return new WaitForSeconds(fireReloadSpeed);
             playerAction.FirePower += 1;
-            uiUpdater.UpdateFirePowerUI(playerAction.FirePower);
+            uiUpdater.UpdateFirePowerUI(true, playerAction.FirePower);
         }
         reloadingFire = false;
     }
@@ -75,7 +75,7 @@ public class Reload : MonoBehaviour
         {
             yield return new WaitForSeconds(iceReloadSpeed);
             playerAction.IcePower += 1;
-            uiUpdater.UpdateIcePowerUI(playerAction.IcePower);
+            uiUpdater.UpdateIcePowerUI(true, playerAction.IcePower);
         }
         reloadingIce = false;
     }
@@ -86,7 +86,7 @@ public class Reload : MonoBehaviour
         {
             yield return new WaitForSeconds(electrikReloadSpeed);
             playerAction.ElectrikPower += 1;
-            uiUpdater.UpdateElectrikPowerUI(playerAction.ElectrikPower);
+            uiUpdater.UpdateElectrikPowerUI(true, playerAction.ElectrikPower);
         }
         reloadingElectrik = false;
     }

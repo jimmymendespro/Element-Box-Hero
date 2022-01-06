@@ -6,6 +6,9 @@ using TMPro;
 
 public class PlayerAction : MonoBehaviour
 {
+    [SerializeField] float dashSpeed = 9f;
+    [SerializeField] float dashLength = 9f;
+
     [Header("Fire state settings")]
     [SerializeField] ParticleSystem fireBall;
     [SerializeField] [Range(0,100)] int firePower = 100;
@@ -86,7 +89,7 @@ public class PlayerAction : MonoBehaviour
             {
                 CastFireBall();
                 firePower -= fireBallCost;
-                uiUpdater.UpdateFirePowerUI(firePower);
+                uiUpdater.UpdateFirePowerUI(true, firePower);
             }
         }
     }
@@ -105,7 +108,7 @@ public class PlayerAction : MonoBehaviour
             {
                 CastIceDome();
                 icePower -= iceDomeCost;
-                uiUpdater.UpdateIcePowerUI(icePower);
+                uiUpdater.UpdateIcePowerUI(true, icePower);
             }
         }
     }
@@ -129,7 +132,7 @@ public class PlayerAction : MonoBehaviour
                     usingElectrikShockForValue = true;
                 }
                 
-                uiUpdater.UpdateElectrikPowerUI(electrikPower);
+                uiUpdater.UpdateElectrikPowerUI(true, electrikPower);
             }
             else
             {
@@ -178,7 +181,63 @@ public class PlayerAction : MonoBehaviour
     {
         if(Input.GetButtonDown("Fire2"))
         {
-            Debug.Log("Click Droit");
+            String input = "";
+            if(Input.GetKey(KeyCode.Z))
+            {
+                input += "U";
+            }
+            if(Input.GetKey(KeyCode.S))
+            {
+                input += "D";
+            }
+            if(Input.GetKey(KeyCode.A))
+            {
+                input += "L";
+            }
+            if(Input.GetKey(KeyCode.E))
+            {
+                input += "R";
+            }
+            StartCoroutine("TranslatePlayerPosition", input);
+        }
+    }
+
+    IEnumerator TranslatePlayerPosition(String inputPressed)
+    {
+        float movementPercentage = 0f;
+
+        Vector3 playerRigPosition = transform.parent.transform.position;
+        Vector3 destinationDirection = new Vector3(0, 0, 0);
+
+        Debug.Log(inputPressed);
+
+        for(int i = 0 ; i < inputPressed.Length ; i++)
+        {
+            switch(inputPressed[i])
+            {
+                case'U':
+                    destinationDirection += transform.parent.transform.forward * dashLength;
+                    break;
+                case'D':
+                    destinationDirection -= transform.parent.transform.forward * dashLength;
+                    break;
+                case'L':
+                    destinationDirection -= transform.parent.transform.right * dashLength;
+                    break;
+                case'R':
+                    destinationDirection += transform.parent.transform.right * dashLength;
+                    break;
+            }
+        }
+
+        Vector3 playerRigDestination = playerRigPosition + destinationDirection;
+
+        while(movementPercentage < 1)
+        {
+            movementPercentage += Time.deltaTime * dashSpeed;
+    
+            transform.parent.transform.position = Vector3.Lerp(playerRigPosition, playerRigDestination, movementPercentage);
+            yield return new WaitForEndOfFrame();
         }
     }
 

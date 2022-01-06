@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4770742484186681377}
   - component: {fileID: 4770742484186681376}
   - component: {fileID: 7172681480096741346}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Grass
   m_TagString: Grass
   m_Icon: {fileID: 0}
@@ -112,3 +112,6 @@ MonoBehaviour:
   earthMaterial: {fileID: 2100000, guid: 7110f989be310a145b44660ce8e79d9d, type: 2}
   snowMaterial: {fileID: 2100000, guid: 6bb3b21afc73626458d65dec498606ec, type: 2}
   waterMaterial: {fileID: 0}
+  iceMaterial: {fileID: 0}
+  sandMaterial: {fileID: 0}
+  stoneMaterial: {fileID: 0}

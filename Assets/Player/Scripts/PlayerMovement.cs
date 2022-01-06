@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float movementSpeed = 10f;
     [SerializeField] float rotationSpeed = 100f;
 
+    bool halfSpeed = false;
+
     void Update()
     {
         MoveForwardBackward();
@@ -52,4 +54,24 @@ public class PlayerMovement : MonoBehaviour
         transform.Rotate(rotationVector);
     }
 
+    public void SetPlayerSpeedToHalf()
+    {
+        if(!halfSpeed)
+        {
+            movementSpeed /= 2;
+            rotationSpeed /= 2;
+            halfSpeed = true;
+        }
+    }
+
+    public void SetPlayerSpeedToMax()
+    {
+        if(halfSpeed)
+        {
+            movementSpeed *= 2;
+            rotationSpeed *= 2;
+            halfSpeed = false;
+        }
+    }
+    
 }

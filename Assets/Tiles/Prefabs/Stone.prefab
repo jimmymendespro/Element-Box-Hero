@@ -110,7 +110,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentMaterial: {fileID: 2100000, guid: 84ceb780ef8c9e94fb41c5024e8d4667, type: 2}
   earthMaterial: {fileID: 0}
-  snowMaterial: {fileID: 0}
+  snowMaterial: {fileID: 2100000, guid: 6bb3b21afc73626458d65dec498606ec, type: 2}
   waterMaterial: {fileID: 0}
   iceMaterial: {fileID: 0}
   sandMaterial: {fileID: 0}
+  stoneMaterial: {fileID: 2100000, guid: 84ceb780ef8c9e94fb41c5024e8d4667, type: 2}

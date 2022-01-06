@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4770742484186681377}
   - component: {fileID: 4770742484186681376}
   - component: {fileID: 7172681480096741346}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Sand
   m_TagString: Sand
   m_Icon: {fileID: 0}
@@ -114,3 +114,4 @@ MonoBehaviour:
   waterMaterial: {fileID: 0}
   iceMaterial: {fileID: 0}
   sandMaterial: {fileID: 2100000, guid: 16a8e759f437fb84ca81ffe632f1c18a, type: 2}
+  stoneMaterial: {fileID: 0}
