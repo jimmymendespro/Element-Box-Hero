@@ -19,6 +19,15 @@ TagManager:
   - IceDomeParticleContainer
   - Stone
   - PlayerRig
+  - DropperPiece
+  - GameOverCanvas
+  - TryAgainButton
+  - TopBox
+  - Enemy
+  - ActivationOven
+  - RegeneratonOven
+  - GroundUnderWater
+  - FireRangedEnemy
   layers:
   - Default
   - TransparentFX
@@ -26,9 +35,9 @@ TagManager:
   - Tiles
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Dropper
+  - Player
+  - Ground
   - 
   - 
   - 

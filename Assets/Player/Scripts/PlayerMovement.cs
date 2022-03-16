@@ -7,37 +7,65 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float movementSpeed = 10f;
     [SerializeField] float rotationSpeed = 100f;
 
-    bool halfSpeed = false;
+    public float MovementSpeed { get { return movementSpeed; } set { movementSpeed = value; } }
 
-    void Update()
+    Rigidbody playerRigidbody;
+
+    Vector3 playerDirection;
+    public Vector3 PlayerDirection { get { return playerDirection; } }
+    Vector3 playerRotation;
+
+    float initialMovementSpeed;
+    float initialRotationSpeed;
+
+    bool halfSpeed = false;
+    public bool HalfSpeed { get { return halfSpeed; } }
+
+    void Start() 
     {
-        MoveForwardBackward();
-        MoveLeftRight();
-        RotateLeftRight();
+        playerRigidbody = GetComponent<Rigidbody>();
+        initialMovementSpeed = movementSpeed;
+        initialRotationSpeed = rotationSpeed;
     }
 
-    void MoveForwardBackward()
+    void Update() 
     {
+        GetTranslateInput();
+    }
+
+    void GetTranslateInput()
+    {
+        playerDirection = Vector3.zero;
         if (Input.GetKey(KeyCode.Z))
         {
-            transform.Translate(Vector3.forward * Time.deltaTime * movementSpeed);
+            playerDirection += Vector3.forward;
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            transform.Translate(Vector3.back * Time.deltaTime * movementSpeed);
+            playerDirection += Vector3.back;
         }
-    }
 
-    void MoveLeftRight()
-    {
         if (Input.GetKey(KeyCode.A))
         {
-            transform.Translate(Vector3.left * Time.deltaTime * movementSpeed);
+            playerDirection += Vector3.left;
         }
         else if (Input.GetKey(KeyCode.E))
         {
-            transform.Translate(Vector3.right * Time.deltaTime * movementSpeed);
+            playerDirection += Vector3.right;
         }
+        //playerDirection = new Vector3(Input.GetAxis("Horizontal"), 0 , Input.GetAxis("Vertical"));
+    }
+
+    void FixedUpdate()
+    {
+        MovePlayer(playerDirection);
+        RotateLeftRight();
+    }
+
+    public void MovePlayer(Vector3 direction)
+    {
+        Vector3 localDirection = transform.TransformDirection(direction);
+        playerRigidbody.MovePosition(transform.position + localDirection * movementSpeed * Time.fixedDeltaTime);
     }
 
     void RotateLeftRight()
@@ -54,24 +82,32 @@ public class PlayerMovement : MonoBehaviour
         transform.Rotate(rotationVector);
     }
 
-    public void SetPlayerSpeedToHalf()
+    public IEnumerator SetPlayerSpeedToHalf()
     {
         if(!halfSpeed)
         {
-            movementSpeed /= 2;
-            rotationSpeed /= 2;
+            while(movementSpeed > initialMovementSpeed / 2)
+            {
+                movementSpeed -= 0.05f;
+                yield return new WaitForSeconds(0.1f);
+            }
             halfSpeed = true;
         }
     }
 
-    public void SetPlayerSpeedToMax()
+    public IEnumerator SetPlayerSpeedToMax()
     {
         if(halfSpeed)
         {
-            movementSpeed *= 2;
-            rotationSpeed *= 2;
+            while(movementSpeed < initialMovementSpeed)
+            {
+                movementSpeed += 0.05f;
+                yield return new WaitForSeconds(0.1f);
+            }
+            movementSpeed = initialMovementSpeed;
+            rotationSpeed = initialRotationSpeed;
             halfSpeed = false;
         }
     }
-    
+
 }

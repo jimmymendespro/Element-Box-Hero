@@ -6,16 +6,15 @@ using TMPro;
 
 public class PlayerAction : MonoBehaviour
 {
-    [SerializeField] float dashSpeed = 9f;
-    [SerializeField] float dashLength = 9f;
-
     [Header("Fire state settings")]
     [SerializeField] ParticleSystem fireBall;
+    [SerializeField] AudioClip fireBallSFX;
     [SerializeField] [Range(0,100)] int firePower = 100;
     [SerializeField] int fireBallCost = 20;
 
     [Header("Ice state settings")]
     [SerializeField] ParticleSystem iceDome;
+    [SerializeField] AudioClip iceDomeSFX;
     [SerializeField] [Range(0,100)] int icePower = 100;
     [SerializeField] int iceDomeCost = 25;
 
@@ -39,15 +38,19 @@ public class PlayerAction : MonoBehaviour
     public bool UsingElectrikShock { get { return usingElectrikShock; } }
     bool usingElectrikShockForValue = false;
 
+    Vector3 dashDirection;
+
+    AudioSource audioSource;
+
     void Start() {
         uiUpdater = FindObjectOfType<UIUpdater>();
         changePlayerState = FindObjectOfType<ChangePlayerState>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
     {
         Action();
-        Dash();
     }
 
     void Action()
@@ -88,8 +91,11 @@ public class PlayerAction : MonoBehaviour
             if(firePower >= fireBallCost)
             {
                 CastFireBall();
+                audioSource.clip = fireBallSFX;
+                audioSource.volume = 0.4f;
+                audioSource.Play();
                 firePower -= fireBallCost;
-                uiUpdater.UpdateFirePowerUI(true, firePower);
+                uiUpdater.UpdateFirePowerUI(true, true, firePower);
             }
         }
     }
@@ -107,8 +113,11 @@ public class PlayerAction : MonoBehaviour
             if(icePower >= iceDomeCost)
             {
                 CastIceDome();
+                audioSource.clip = iceDomeSFX;
+                audioSource.volume = 0.4f;
+                audioSource.Play();
                 icePower -= iceDomeCost;
-                uiUpdater.UpdateIcePowerUI(true, icePower);
+                uiUpdater.UpdateIcePowerUI(true, true, icePower);
             }
         }
     }
@@ -132,7 +141,7 @@ public class PlayerAction : MonoBehaviour
                     usingElectrikShockForValue = true;
                 }
                 
-                uiUpdater.UpdateElectrikPowerUI(true, electrikPower);
+                uiUpdater.UpdateElectrikPowerUI(true, true, electrikPower);
             }
             else
             {
@@ -175,70 +184,6 @@ public class PlayerAction : MonoBehaviour
     void Jump()
     {
         
-    }
-
-    void Dash()
-    {
-        if(Input.GetButtonDown("Fire2"))
-        {
-            String input = "";
-            if(Input.GetKey(KeyCode.Z))
-            {
-                input += "U";
-            }
-            if(Input.GetKey(KeyCode.S))
-            {
-                input += "D";
-            }
-            if(Input.GetKey(KeyCode.A))
-            {
-                input += "L";
-            }
-            if(Input.GetKey(KeyCode.E))
-            {
-                input += "R";
-            }
-            StartCoroutine("TranslatePlayerPosition", input);
-        }
-    }
-
-    IEnumerator TranslatePlayerPosition(String inputPressed)
-    {
-        float movementPercentage = 0f;
-
-        Vector3 playerRigPosition = transform.parent.transform.position;
-        Vector3 destinationDirection = new Vector3(0, 0, 0);
-
-        Debug.Log(inputPressed);
-
-        for(int i = 0 ; i < inputPressed.Length ; i++)
-        {
-            switch(inputPressed[i])
-            {
-                case'U':
-                    destinationDirection += transform.parent.transform.forward * dashLength;
-                    break;
-                case'D':
-                    destinationDirection -= transform.parent.transform.forward * dashLength;
-                    break;
-                case'L':
-                    destinationDirection -= transform.parent.transform.right * dashLength;
-                    break;
-                case'R':
-                    destinationDirection += transform.parent.transform.right * dashLength;
-                    break;
-            }
-        }
-
-        Vector3 playerRigDestination = playerRigPosition + destinationDirection;
-
-        while(movementPercentage < 1)
-        {
-            movementPercentage += Time.deltaTime * dashSpeed;
-    
-            transform.parent.transform.position = Vector3.Lerp(playerRigPosition, playerRigDestination, movementPercentage);
-            yield return new WaitForEndOfFrame();
-        }
     }
 
 }

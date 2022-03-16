@@ -1,15 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ChangePlayerState : MonoBehaviour
 {
+    [SerializeField] bool switchStateAllowed = true;
     [SerializeField] bool fireStateEnabled = false;
     [SerializeField] bool iceStateEnabled = false;
     [SerializeField] bool electrikStateEnabled = false;
     [SerializeField] bool windStateEnabled = false;
 
     int currentState = 0;
+    int statesEnabled = 0;
 
     public int CurrentState { get { return currentState; } }
     public bool FireStateEnabled { get { return fireStateEnabled; } }
@@ -17,9 +20,13 @@ public class ChangePlayerState : MonoBehaviour
     public bool ElectrikStateEnabled { get { return electrikStateEnabled; } }
     public bool WindStateEnabled { get { return windStateEnabled; } }
 
+    UIUpdater uIUpdater;
+
     void Start()
     {
+        uIUpdater = FindObjectOfType<UIUpdater>();
         ChangeMaterial();
+        StatesEnabledCalcul();
     }
 
     void Update()
@@ -27,34 +34,51 @@ public class ChangePlayerState : MonoBehaviour
         ChangeState();
     }
 
+    void StatesEnabledCalcul()
+    {
+        if(fireStateEnabled) statesEnabled++;
+        if(iceStateEnabled) statesEnabled++;
+        if(electrikStateEnabled) statesEnabled++;
+        if(windStateEnabled) statesEnabled++;
+    }
+
     void ChangeState()
     {
-        if(!GetComponentInChildren<ChangePlayerMesh>().IsCurrentlyRotating)
+        if(switchStateAllowed)
         {
-            if (Input.mouseScrollDelta.y > 0)
+            if(!GetComponentInChildren<ChangePlayerMesh>().IsCurrentlyRotating)
             {
-                StartCoroutine(GetComponentInChildren<ChangePlayerMesh>().RotatePlayerMesh(90));
-                IncrementingState();
+                if (Input.mouseScrollDelta.y < 0)
+                {
+                    StartCoroutine(GetComponentInChildren<ChangePlayerMesh>().RotatePlayerMesh(90));
+                    IncrementingState();
+                }
+                else if (Input.mouseScrollDelta.y > 0)
+                {
+                    StartCoroutine(GetComponentInChildren<ChangePlayerMesh>().RotatePlayerMesh(-90));
+                    DecrementingState();
+                }
+                if(Input.mouseScrollDelta.y != 0)
+                {
+                    ChangeMaterial();
+                    GameObject.FindObjectOfType<UIUpdater>();
+                    uIUpdater.UpdatePowers();
+                } 
             }
-            else if (Input.mouseScrollDelta.y < 0)
-            {
-                StartCoroutine(GetComponentInChildren<ChangePlayerMesh>().RotatePlayerMesh(-90));
-                DecrementingState();
-            }
-            if(Input.mouseScrollDelta.y != 0) ChangeMaterial();
         }
+        
     }
 
     void IncrementingState()
     {
         currentState++;
-        if(currentState > 3) currentState = 0;
+        if(currentState > statesEnabled - 1) currentState = 0;
     }
 
     void DecrementingState()
     {
         currentState--;
-        if(currentState < 0) currentState = 3;
+        if(currentState < 0) currentState = statesEnabled - 1;
     }
 
     void ChangeMaterial()
@@ -97,4 +121,29 @@ public class ChangePlayerState : MonoBehaviour
         }
         GetComponentInChildren<ChangePlayerMesh>().SetCurrentMaterial(currentState, isEnabled);
     }
+
+    public bool isFireStateSelected()
+    {
+        if(fireStateEnabled && currentState == 0) return true;
+        else return false;
+    }
+
+    public bool isIceStateSelected()
+    {
+        if(iceStateEnabled && currentState == 1) return true;
+        else return false;
+    }
+
+    public bool isElectrikStateSelected()
+    {
+        if(electrikStateEnabled && currentState == 2) return true;
+        else return false;
+    }
+
+    public bool isWindStateSelected()
+    {
+        if(windStateEnabled && currentState == 3) return true;
+        else return false;
+    }
+
 }

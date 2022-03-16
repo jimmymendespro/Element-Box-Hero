@@ -15,9 +15,15 @@ public class TerrainCollision : MonoBehaviour
     bool isSand = false;
     bool isStone = false;
 
+    static PlayerUtilities playerUtilities;
+
     void Start() {
         if(tag == "Sand") isSand = true;
         else if(tag == "Stone") isStone = true;
+        if(playerUtilities == null)
+        {
+            playerUtilities = FindObjectOfType<PlayerUtilities>();
+        }
     }
 
     void OnCollisionEnter(Collision other) {
@@ -45,11 +51,13 @@ public class TerrainCollision : MonoBehaviour
                 CollisionWithStone(other);
             break;
         }
-    }
-
-    void OnTriggerEnter(Collider other) 
-    {
-        TriggeringWater(other);
+        /*if(playerUtilities.IsPlayerTag(other.gameObject.tag))
+        {
+            if(other.gameObject.GetComponent<PlayerMovement>().HalfSpeed && tag != "Ice" && tag != "Water" && tag != "GroundUnderWater")
+            {
+                //RestaurePlayerSpeed(other.gameObject);
+            }
+        }*/
     }
 
     void CollisionWithGrass(Collision other)
@@ -119,6 +127,7 @@ public class TerrainCollision : MonoBehaviour
     {
         if (other.gameObject.tag == "PlayerFireMode")
         {
+            //DecreasePlayerSpeed(other.gameObject);
             GetComponent<MeshRenderer>().material = waterMaterial;
             GetComponent<BoxCollider>().isTrigger = true;
             tag = "Water";
@@ -126,16 +135,6 @@ public class TerrainCollision : MonoBehaviour
         else if(other.gameObject.tag == "Player" || other.gameObject.tag == "PlayerElectrikMode")
         {
             // To do : Add slipery effect
-        }
-    }
-
-    void TriggeringWater(Collider other)
-    {
-        if (other.gameObject.tag == "PlayerIceMode")
-        {
-            GetComponent<MeshRenderer>().material = iceMaterial;
-            GetComponent<BoxCollider>().isTrigger = false;
-            tag = "Ice";
         }
     }
 
@@ -169,6 +168,38 @@ public class TerrainCollision : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider other) 
+    {
+        TriggeringWater(other);
+    }
+
+    void TriggeringWater(Collider other)
+    {
+        if (other.gameObject.tag == "PlayerIceMode")
+        {
+            GetComponent<MeshRenderer>().material = iceMaterial;
+            GetComponent<BoxCollider>().isTrigger = false;
+            tag = "Ice";
+        }
+    }
+
+    void OnTriggerStay(Collider other) 
+    {
+        if(tag == "Water")
+        {
+            if(other.transform.position.y - transform.position.y < 0.2)
+            {
+                StartCoroutine(Drowning(other));
+            }
+        }
+    }
+
+    IEnumerator Drowning(Collider other) 
+    {
+        yield return new WaitForSeconds(0.5f);
+        FindObjectOfType<UIGameOver>().DisplayGameOver();
+    }
+
     void OnParticleCollision(GameObject other) 
     {
         if(other.tag == "IceDome") 
@@ -187,14 +218,14 @@ public class TerrainCollision : MonoBehaviour
         }
     }
 
-    void DecreasePlayerSpeed(GameObject gameObject)
+    /*void DecreasePlayerSpeed(GameObject gameObject)
     {
-       gameObject.GetComponentInParent<PlayerMovement>().SetPlayerSpeedToHalf();
+       StartCoroutine(gameObject.GetComponentInParent<PlayerMovement>().SetPlayerSpeedToHalf());
     }
 
     void RestaurePlayerSpeed(GameObject gameObject)
     {
-        gameObject.GetComponentInParent<PlayerMovement>().SetPlayerSpeedToMax();
-    }
+        StartCoroutine(gameObject.GetComponentInParent<PlayerMovement>().SetPlayerSpeedToMax());
+    }*/
     
 }
